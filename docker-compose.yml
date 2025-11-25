@@ -61,3 +61,62 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+
+  # qwen3-1-7b-service:
+  #   image: vllm/vllm-openai:latest
+  #   container_name: vllm-qwen3-1-7b
+  #   runtime: nvidia
+  #   volumes:
+  #     - ./models:/models
+  #   ipc: host
+  #   ports:
+  #     - "8082:8082"
+  #   command: >
+  #     --model /models/Qwen3-1.7B
+  #     --served-model-name qwen3-1-7b
+  #     --dtype float16
+  #     --max-model-len 1024
+  #     --host 0.0.0.0
+  #     --port 8082
+  #     --gpu-memory-utilization 0.7
+  #     --trust-remote-code
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: all
+  #             capabilities: [gpu]
+
+  # embedding-service:
+  #   image: vllm/vllm-openai:latest
+  #   container_name: vllm-qwen3-embedding
+  #   # network_mode: host # Uncomment if you want to use host networking (on Linux)
+  #   runtime: nvidia
+  #   ports:
+  #     - "8080:8080"
+  #   # environment:
+  #   #   - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}  # Optional: Your HF token
+  #   volumes:
+  #     - ./models:/models  # Cache models
+  #   ipc: host  # Shared memory for PyTorch/vLLM
+
+  #   # --enforce-eager  Optional: For debugging; disable for better perf
+  #   command: >
+  #     --model /models/Qwen3-Embedding-0.6B
+  #     --served-model-name Qwen/Qwen3-Embedding-0.6B
+  #     --task embed
+  #     --dtype bfloat16
+  #     --max-model-len 512
+  #     --port 8080
+  #     --host 0.0.0.0
+  #     --gpu-memory-utilization 0.5
+  #     --hf_overrides '{"matryoshka_dimensions":[1024]}'
+  #   # restart: unless-stopped
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: all
+  #             capabilities: [gpu]
