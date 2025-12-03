@@ -2,7 +2,3 @@ models/bge-reranker-v2-m3/*
 models/Qwen3-Embedding-0.6B/*
 models/Qwen3-1.7B/*
 models/Qwen3-8B.gguf-Q8_0.gguf/*
-
-.venv/
-
-.vscode/
