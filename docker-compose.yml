@@ -1,29 +1,26 @@
 services:
   embedding-service:
-    image: vllm/vllm-openai:latest
+    image: vllm/vllm-openai:latest  # Or pin: vllm/vllm-openai:v0.10.1.1
     container_name: vllm-qwen3-embedding
-    # network_mode: host # Uncomment if you want to use host networking (on Linux)
     runtime: nvidia
     ports:
       - "8080:8080"
-    # environment:
-    #   - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}  # Optional: Your HF token
     volumes:
-      - ./models:/models  # Cache models
-    ipc: host  # Shared memory for PyTorch/vLLM
+      - ./models:/models
+    ipc: host
+    environment:
+      - VLLM_USE_V1=0  # Required for embedding models in some versions [[15]]
 
-    # --enforce-eager  Optional: For debugging; disable for better perf
     command: >
       --model /models/Qwen3-Embedding-0.6B
       --served-model-name Qwen/Qwen3-Embedding-0.6B
-      --task embed
       --dtype bfloat16
       --max-model-len 4096
       --port 8080
       --host 0.0.0.0
       --gpu-memory-utilization 0.8
       --hf_overrides '{"matryoshka_dimensions":[1024]}'
-    # restart: unless-stopped
+
     deploy:
       resources:
         reservations:
