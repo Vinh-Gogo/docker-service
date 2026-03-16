@@ -4,3 +4,7 @@ models/Qwen3-1.7B/*
 models/Qwen3-8B.gguf-Q8_0.gguf/*
 
 unsloth/Qwen3.5-35B-A3B-GGUF/*
+
+models/Nemotron-Terminal-32B-GGUF/*
+
+models/Huihui-Qwen3.5-27B-Claude-4.6-Opus-abliterated-i1-GGUF/*
